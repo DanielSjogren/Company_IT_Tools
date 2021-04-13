@@ -24,13 +24,13 @@ Changes from the original version:
 # General
 
 ## How to change the title and Window size?
-Change the lines:
+Change the lines:  
     $Form.Title = "Company IT Tools" 
     $Form.Width = "1024"
     $Form.Height = "600"
 
 ## How to hide a tab?
-Uncomment the line:
+Uncomment the line:  
     #$Tab_Overview.Visibility = "Collapsed"
     #$Tab_Details.Visibility = "Collapsed"
     #$Tab_Links.Visibility = "Collapsed"
@@ -41,14 +41,14 @@ Uncomment the line:
     #$Tab_VPN.Visibility = "Collapsed"
 
 ## How to hide or show a Column?
-Change the lines:
+Change the lines:  
     $Links_Block1.Visibility = "Visible"
     $Links_Block2.Visibility = "Collapsed"
     $Links_Block3.Visibility = "Collapsed"
 	
 ## How to configure a button?
-The .Content is the Title of the button
-The .Visibility can be used to hide a button with Collapsed
+The .Content is the Title of the button  
+The .Visibility can be used to hide a button with Collapsed  
 
     $Links_Btn_Block1_Row1 = $form.FindName("Links_Btn_Block1_Row1")
     $Links_Btn_Block1_Row1.Content = "Change MFA Settings"
@@ -58,36 +58,36 @@ The .Visibility can be used to hide a button with Collapsed
     })
 	
 ## How to display a custom dialog?
-Add:
+Add:  
 	$DialogMessage.Content = "Add the message here" 
 	[MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
 
 ## How to configure the VPN?
 
-Define the name of the VPN connection (Same name as in Windows):
+Define the name of the VPN connection (Same name as in Windows):  
 	$Global:VPNName = "Company VPN"
 
-Define parts of the User certificate to match (If using other solution than user certificates, then remove this section):
+Define parts of the User certificate to match (If using other solution than user certificates, then remove this section):  
 	$Global:MatchUserCertificate = ", OU=COMPANY, DC=ad, DC=company, DC=com"
     
-Define an internal server that can prevent VPN connections when on the company network. Added a check against IP because some providers can translate an address even when not connected:
+Define an internal server that can prevent VPN connections when on the company network. Added a check against IP because some providers can translate an address even when not connected:  
 	$Global:CheckInternalServerName = "server.ad.company.com"
 	$Global:CheckInternalServerIPAddress = "10.1.1.10"
 
-Show or Hide the Troubleshooting block at the right:
+Show or Hide the Troubleshooting block at the right:  
 	$ShowTroubleshootingBlock = $True
 
-Show or hide the Footer block with Repair VPN and Change MFA buttons. The Repair VPN needs an updated Function with correct settings.
+Show or hide the Footer block with Repair VPN and Change MFA buttons. The Repair VPN needs an updated Function with correct settings.  
 	$ShowFooterBlock = $True
 	$ShowBtnRepairVPN = $True
 	$ShowBtnChangeMFA = $True
 
-Define VPN Sites with Address and Display Name. Used in Change VPN site section:
+Define VPN Sites with Address and Display Name. Used in Change VPN site section:  
     $Global:VPNSites = @()
     $VPNSites += [pscustomobject]@{ ServerAddress = "vpn.company.com"; Name = "Automatic (Global)" }
     $VPNSites += [pscustomobject]@{ ServerAddress = "vpn-sweden.company.com"; Name = "Sweden" }
 
-Define a nicer display name of the connected VPN Site:
+Define a nicer display name of the connected VPN Site:  
     $Global:VPNSubnets = @()
     $VPNSubnets += [pscustomobject]@{ ServerSubnet = "10.1.1.0/24"; Name = "Sweden" }
     #$VPNSubnets += [pscustomobject]@{ ServerSubnet = "10.1.2.0/24"; Name = "another Country/location" }
