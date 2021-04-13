@@ -25,64 +25,64 @@ Changes from the original version:
 
 ## How to change the title and Window size?
 Change the lines:  
-    $Form.Title = "Company IT Tools" 
-    $Form.Width = "1024"
-    $Form.Height = "600"
+    $Form.Title = "Company IT Tools"  
+    $Form.Width = "1024"  
+    $Form.Height = "600"  
 
 ## How to hide a tab?
 Uncomment the line:  
-    #$Tab_Overview.Visibility = "Collapsed"
-    #$Tab_Details.Visibility = "Collapsed"
-    #$Tab_Links.Visibility = "Collapsed"
-    #$Tab_Monitors.Visibility = "Collapsed"
-    #$Tab_Support.Visibility = "Collapsed"
-    #$Tab_Tools.Visibility = "Collapsed"
-    #$Tab_Troubleshooting.Visibility = "Collapsed"
+    #$Tab_Overview.Visibility = "Collapsed"  
+    #$Tab_Details.Visibility = "Collapsed"  
+    #$Tab_Links.Visibility = "Collapsed"  
+    #$Tab_Monitors.Visibility = "Collapsed"  
+    #$Tab_Support.Visibility = "Collapsed"  
+    #$Tab_Tools.Visibility = "Collapsed"  
+    #$Tab_Troubleshooting.Visibility = "Collapsed"  
     #$Tab_VPN.Visibility = "Collapsed"
 
 ## How to hide or show a Column?
 Change the lines:  
-    $Links_Block1.Visibility = "Visible"
-    $Links_Block2.Visibility = "Collapsed"
-    $Links_Block3.Visibility = "Collapsed"
+    $Links_Block1.Visibility = "Visible"  
+    $Links_Block2.Visibility = "Collapsed"  
+    $Links_Block3.Visibility = "Collapsed"  
 	
 ## How to configure a button?
 The .Content is the Title of the button  
 The .Visibility can be used to hide a button with Collapsed  
 
-    $Links_Btn_Block1_Row1 = $form.FindName("Links_Btn_Block1_Row1")
-    $Links_Btn_Block1_Row1.Content = "Change MFA Settings"
-    $Links_Btn_Block1_Row1.Visibility = "Visible" # "Collapsed"
-    $Links_Btn_Block1_Row1.Add_Click({
-        [Diagnostics.Process]::Start("http://aka.ms/setupmfa")
-    })
+    $Links_Btn_Block1_Row1 = $form.FindName("Links_Btn_Block1_Row1")  
+    $Links_Btn_Block1_Row1.Content = "Change MFA Settings"  
+    $Links_Btn_Block1_Row1.Visibility = "Visible" # "Collapsed"  
+    $Links_Btn_Block1_Row1.Add_Click({  
+        [Diagnostics.Process]::Start("http://aka.ms/setupmfa")  
+    })  
 	
 ## How to display a custom dialog?
 Add:  
-	$DialogMessage.Content = "Add the message here" 
-	[MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
+    $DialogMessage.Content = "Add the message here"  
+    [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)  
 
 ![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/custom_dialog.png)
 
 ## How to configure the VPN?
 
 Define the name of the VPN connection (Same name as in Windows):  
-	$Global:VPNName = "Company VPN"
+    $Global:VPNName = "Company VPN"  
 
 Define parts of the User certificate to match (If using other solution than user certificates, then remove this section):  
-	$Global:MatchUserCertificate = ", OU=COMPANY, DC=ad, DC=company, DC=com"
+    $Global:MatchUserCertificate = ", OU=COMPANY, DC=ad, DC=company, DC=com"  
     
 Define an internal server that can prevent VPN connections when on the company network. Added a check against IP because some providers can translate an address even when not connected:  
-	$Global:CheckInternalServerName = "server.ad.company.com"
-	$Global:CheckInternalServerIPAddress = "10.1.1.10"
+    $Global:CheckInternalServerName = "server.ad.company.com"  
+    $Global:CheckInternalServerIPAddress = "10.1.1.10"  
 
 Show or Hide the Troubleshooting block at the right:  
-	$ShowTroubleshootingBlock = $True
+    $ShowTroubleshootingBlock = $True  
 
 Show or hide the Footer block with Repair VPN and Change MFA buttons. The Repair VPN needs an updated Function with correct settings.  
-	$ShowFooterBlock = $True
-	$ShowBtnRepairVPN = $True
-	$ShowBtnChangeMFA = $True
+    $ShowFooterBlock = $True  
+    $ShowBtnRepairVPN = $True  
+    $ShowBtnChangeMFA = $True  
 
 Define VPN Sites with Address and Display Name. Used in Change VPN site section:  
     $Global:VPNSites = @()
