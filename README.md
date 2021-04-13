@@ -116,3 +116,13 @@ Define a nicer display name of the connected VPN Site:
     $VPNSubnets += [pscustomobject]@{ ServerSubnet = "10.1.1.0/24"; Name = "Sweden" }
     #$VPNSubnets += [pscustomobject]@{ ServerSubnet = "10.1.2.0/24"; Name = "another Country/location" }
 ```	
+
+# Previews
+
+![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/overview.png)
+![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/details.png)
+![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/links.png)
+![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/support.png)
+![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/tools.png)
+![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/troubleshooting.png)
+![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/vpn.png)
