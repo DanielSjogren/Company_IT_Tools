@@ -1,0 +1,417 @@
+<Controls:MetroWindow 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"	
+	xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+	xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	xmlns:system="clr-namespace:System;assembly=mscorlib"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	Title="IT Tools" 
+	Topmost="True"
+	Width="1024" 
+	Height="600"  
+	ResizeMode="CanMinimize"	
+	BorderThickness="1"
+	WindowStartupLocation ="CenterScreen"	
+	GlowBrush="{DynamicResource AccentColorBrush}"	
+>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Cyan.xaml" />				
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>		
+			<Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+				<Setter Property="OverridesDefaultStyle" Value="true" />
+				<Setter Property="HasDropShadow" Value="True" />
+				<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ToolTip" >
+						<Border Name="Border" BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Margin="0,0,0,50" Background="gray">
+							<Border.BorderBrush>
+								<SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+							</Border.BorderBrush>
+							<ContentPresenter Margin="9" HorizontalAlignment="Left" VerticalAlignment="Top" />
+						</Border>		
+						<ControlTemplate.Triggers>
+							<Trigger Property="HasDropShadow" Value="true">
+								<Setter TargetName="Border" Property="CornerRadius" Value="4" />
+								<Setter TargetName="Border"  Property="SnapsToDevicePixels" Value="true" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+				</Setter>
+			</Style>
+			<Style x:Key="MyFocusVisual">
+			<Setter Property="Control.Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Control}">
+						<Grid Margin="8">
+							<Ellipse
+								Name="r1"
+								Stroke="Black"
+								StrokeDashArray="2 2"
+								StrokeThickness="1"/>
+							<Border
+								Name="border"
+								Width="{TemplateBinding ActualWidth}"
+								Height="{TemplateBinding ActualHeight}"
+								BorderThickness="1"
+								CornerRadius="2"/>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+			<Style x:Key="CircleButton" TargetType="Button">
+			<Setter Property="OverridesDefaultStyle" Value="True"/>
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisual}"/>
+			<Setter Property="Background" Value="#FF6DB4EF"/>
+			<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid>
+						<Ellipse Fill="{TemplateBinding Background}"/>
+						<Ellipse>
+							<Ellipse.Fill>
+								<RadialGradientBrush>
+									<GradientStop Offset="0" Color="#00000000"/>
+									<GradientStop Offset="0.88" Color="#00000000"/>
+									<GradientStop Offset="1" Color="#80000000"/>
+								</RadialGradientBrush>
+							</Ellipse.Fill>
+						</Ellipse>
+						<Ellipse Margin="10" x:Name="highlightCircle" >
+							<Ellipse.Fill >
+								<LinearGradientBrush >
+									<GradientStop Offset="0" Color="#50FFFFFF"/>
+									<GradientStop Offset="0.5" Color="#00FFFFFF"/>
+									<GradientStop Offset="1" Color="#50FFFFFF"/>
+								</LinearGradientBrush>
+							</Ellipse.Fill>
+						</Ellipse>
+						<ContentPresenter x:Name="content" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsPressed" Value="True">
+							<Setter TargetName="highlightCircle" Property="Fill">
+								<Setter.Value>
+									<LinearGradientBrush StartPoint="0.3,0" EndPoint="0.7,1">
+										<GradientStop Offset="0" Color="#50FFFFFF"/>
+										<GradientStop Offset="0.5" Color="#00FFFFFF"/>
+										<GradientStop Offset="1" Color="#50FFFFFF"/>
+									</LinearGradientBrush>
+								</Setter.Value>
+							</Setter>
+							<Setter TargetName="content" Property="RenderTransform">
+								<Setter.Value>
+									<TranslateTransform Y="0.5" X="0.5"/>
+								</Setter.Value>
+							</Setter>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+			</Setter>
+		</Style>				
+        </ResourceDictionary>
+    </Window.Resources>
+	<Controls:MetroWindow.LeftWindowCommands>
+		<Controls:WindowCommands>	
+		</Controls:WindowCommands>	
+	</Controls:MetroWindow.LeftWindowCommands>		
+	<Controls:MetroWindow.RightWindowCommands>
+		<Controls:WindowCommands>
+			<Label x:Name="ScriptVersion" Content="Version..." />
+		</Controls:WindowCommands>			
+	</Controls:MetroWindow.RightWindowCommands>		
+    <Grid>		
+		<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">		
+			<TabControl Name="Tab_Control" Height="550" TabStripPlacement="Top">
+				
+				<TabItem Name="Tab_Overview" Header="Overview" >
+					<StackPanel Orientation="Vertical" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">		
+						<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+							<StackPanel Orientation="Vertical" Margin="0,30,0,0">		
+								<Image Name="Tool_Logo" Source="images\logo.png" Height="150" Margin="0,-10,0,0"/>									
+							</StackPanel>
+							<StackPanel Orientation="Vertical" Margin="60,0,0,0">		
+								<Label Foreground="#C9C6D3" Name="Lbl_PC_Name"  FontSize="14"/>
+								<Label Foreground="#C9C6D3" Name="Lbl_Username"  FontSize="14"/>																		
+								<Label Foreground="#C9C6D3" Name="Lbl_OS_Version"  FontSize="14"/>
+								<Label Foreground="#C9C6D3" Name="Lbl_Memory" Content="..." FontSize="14"/>
+								<Label Foreground="#C9C6D3" Name="Lbl_Serial" Content="..." FontSize="14"/>	
+								<Label Foreground="#C9C6D3" Name="Lbl_Device_Model" Content="..." FontSize="14"/>
+								<Label Foreground="#C9C6D3" Name="Lbl_TeamViewerID" Content="..." FontSize="14"/>
+								<Label Foreground="#C9C6D3" Name="Lbl_WirelessInfo" Content="..." FontSize="14"/>
+								<StackPanel Orientation="Horizontal">
+									<Label Foreground="#C9C6D3" Name="Lbl_Last_Reboot" Content="Lbl_Last_Reboot" FontSize="14"/>
+									<Label Name="Lbl_Last_Reboot_Alert"  FontSize="14"/>										
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>	
+						<StackPanel Name="Reboot_Alert_Block" HorizontalAlignment="Center" Margin="0,20,0,0">
+							<Label FontWeight="Bold" Foreground="yellow" Name="IsRebootRequired" Content="Une mise à jour requiert un redémarrage !!!"  FontSize="14"/>									
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Margin="0,00,0,0">			
+							<Button x:Name="RoundBtn1" Width="130" Height="130" Style="{StaticResource CircleButton}" Background="#005CBD" Margin="0,10,0,0" Content="" />	
+							<Button x:Name="RoundBtn2" Width="130" Height="130" Style="{StaticResource CircleButton}" Background="#005CBD" Margin="20,10,0,0" Content="" />	
+							<Button x:Name="RoundBtn3" Width="130" Height="130" Style="{StaticResource CircleButton}" Background="#005CBD" Margin="20,10,0,0" Content="" />	
+							<Button x:Name="RoundBtn4" Width="130" Height="130" Style="{StaticResource CircleButton}" Background="#005CBD" Margin="20,10,0,0" Content="" />	
+							<Button x:Name="RoundBtn5" Width="130" Height="130" Style="{StaticResource CircleButton}" Background="#005CBD" Margin="20,10,0,0" Content="" />								
+						</StackPanel>								
+					</StackPanel>		
+				</TabItem>
+
+				<TabItem Name="Tab_Details" Header="Details" >
+					<StackPanel Margin="0,0,0,0">
+						<ScrollViewer  CanContentScroll="True" Height="500" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >        										
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Margin="0,20,0,0">		
+							<StackPanel Orientation="Vertical"  Margin="0,0,0,0">
+								<StackPanel Name="Check_Drivers_Block" Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconFontAwesome Kind="info" Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="Missing drivers:" Margin="4,0,0,0" Width="120"/>
+									<StackPanel Name="Missing_Drivers_Block"><Label Foreground="#C9C6D3" Name="Missing_Drivers_Label" Margin="0,0,0,0"/>
+									</StackPanel> 																			
+								</StackPanel>	
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconMaterialLight Kind="printer" Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="Default printer:" Width="120" Margin="4,0,0,0"/>
+									<Label Foreground="#C9C6D3" Name="Printer" Margin="0,0,0,0"/>											
+								</StackPanel>											
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconModern Kind="network" Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="IP address:" Width="120" Margin="4,0,0,0"/>
+									<Label Foreground="#C9C6D3" Name="My_IP" Margin="0,0,0,0"/>											
+								</StackPanel>										
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconModern	 Kind="networkhome" Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="MAC address:" Width="120" Margin="4,0,0,0"/>
+									<Label Foreground="#C9C6D3" Name="My_MAC" Margin="0,0,0,0"/>											
+								</StackPanel>		
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconModern Kind="networkserver"  Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Name="Domain_WKG_Label" Content="Domain:" Width="120" Margin="4,0,0,0"/>
+									<Label Foreground="#C9C6D3" Name="Domain_name" Margin="0,0,0,0"/>											
+								</StackPanel>											
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0" Name="MECM_Client_Block">
+									<iconPacks:PackIconModern Kind="networkserver"  Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="MECM client version:" Width="120" Margin="4,0,0,0"/>
+									<StackPanel Name="MECM_Client_Version_Block"><Label Foreground="#C9C6D3" Name="MECM_Client_Version_Label" Margin="0,0,0,0"/></StackPanel> 																																																																																																		
+								</StackPanel>											
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconMaterial Kind="security"  Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="Antivirus status:" Width="120" Margin="4,0,0,0"/>
+									<Label Foreground="#C9C6D3" Name="antivirus_Status_Label" Margin="0,0,0,0"/>											
+								</StackPanel>										
+								<StackPanel Name="Check_LastUpdate_Block" Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconFontAwesome Kind="info" Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="Last update:" Width="120" Margin="4,0,0,0"/>
+									<StackPanel Name="antivirus_Last_Update_Block"><Label Foreground="#C9C6D3" Name="antivirus_Last_Update_Label" Margin="0,0,0,0"/></StackPanel> 																																																																																										
+								</StackPanel>										
+								<StackPanel Name="Check_LastScan_Block" Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconFontAwesome Kind="info" Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="Last virus check:" Width="120" Margin="4,0,0,0"/>
+									<StackPanel Name="antivirus_Last_Scan_Block"><Label Foreground="#C9C6D3" Name="antivirus_Last_Scan_Label" Margin="0,0,0,0"/></StackPanel> 																																																																																
+								</StackPanel>										
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconMaterial Kind="security"  Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="BIOS version:" Width="120" Margin="4,0,0,0"/>
+									<Label Foreground="#C9C6D3" Name="BIOS_Version" Margin="0,0,0,0"/>																																																																								
+								</StackPanel>										
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconMaterial Kind="monitor"  Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="Graphic cards:" Width="120" Margin="4,0,0,0"/>								
+									<Label Foreground="#C9C6D3" Name="Graphic_Card_details" Margin="0,0,0,0"/>																																																																								
+								</StackPanel>	
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconModern Kind="connectionwifivariant"  Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="Wifi card:" Width="120" Margin="4,0,0,0"/>								
+									<Label Foreground="#C9C6D3" Name="Wifi_Card" Margin="0,0,0,0"/>																																																																								
+								</StackPanel>	
+								<StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+									<iconPacks:PackIconMaterial Kind="battery"  Margin="0,5,0,0"/>										
+									<Label Foreground="#C9C6D3" Content="Batteries:" Width="120" Margin="4,0,0,0"/>								
+									<Label Foreground="#C9C6D3" Name="Batteries_Info" Margin="0,0,0,0"/>																																																																								
+								</StackPanel>
+							</StackPanel>  
+						</StackPanel>	
+						</ScrollViewer> 		
+					</StackPanel>				
+				</TabItem>		
+				
+				<TabItem Name="Tab_Links" Header="Links" >
+					<StackPanel Orientation="Horizontal" Margin="0,0,0,0"  HorizontalAlignment="Center">			
+						<StackPanel Name="Links_Block1" Orientation="Vertical" Margin="0,30,20,0">
+							<Button x:Name="Links_Btn_Block1_Row1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="Links_Btn_Block1_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block1_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block1_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block1_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Links_Btn_Block1_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Links_Btn_Block1_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />															
+						</StackPanel>	
+						<StackPanel Name="Links_Block2" Orientation="Vertical" Margin="0,30,0,0">
+							<Button x:Name="Links_Btn_Block2_Row1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="Links_Btn_Block2_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block2_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block2_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block2_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Links_Btn_Block2_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block2_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+						</StackPanel>
+						<StackPanel Name="Links_Block3" Orientation="Vertical" Margin="0,30,0,0">
+							<Button x:Name="Links_Btn_Block3_Row1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="Links_Btn_Block3_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block3_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block3_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block3_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Links_Btn_Block3_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Links_Btn_Block3_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+						</StackPanel>							
+					</StackPanel>	
+					
+				</TabItem>
+					
+				<TabItem Name="Tab_Monitors" Header="Monitors" >
+					<StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">			
+						<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" Margin="0,0,20,25"  VerticalAlignment="Center">
+							<Grid x:Name="MonitorList">
+
+							</Grid>
+						</ScrollViewer>							
+					</StackPanel>			
+				</TabItem>
+							
+				<TabItem Name="Tab_Support" Header="Support" >
+					<StackPanel Orientation="Vertical" Margin="0,0,0,0"  HorizontalAlignment="Center">		
+						<StackPanel Orientation="Horizontal" Margin="0,20,0,0">		
+							<StackPanel Orientation="Vertical" Margin="0,80,0,0">		
+								<Image Width="150" Height="104" Source="images\support.png" HorizontalAlignment="Center"/>
+							</StackPanel>	
+							<StackPanel Name="Issue_Block" Orientation="Vertical" Margin="40,10,0,0">	
+								<Label Foreground="#C9C6D3" Content="Got an issue?" FontSize="25"/>
+								<Button x:Name="Support_selfservice" Height="40" Width="200" Content='Start Self Service Portal' Margin="0,10,0,0" />
+								<Button x:Name="Support_email" Height="40" Width="200" Content='Email Service desk' Margin="0,10,0,0" />
+								<Label  Foreground="#C9C6D3" Content="Phone AMER:" Margin="4,40,0,0"/>
+								<Label  Foreground="#C9C6D3" Content="Add phone number" Margin="4,0,0,0"/>
+								<Label  Foreground="#C9C6D3" Content="Phone EMEA:" Margin="4,10,0,0"/>
+								<Label  Foreground="#C9C6D3" Content="Add phone number" Margin="4,0,0,0"/>
+							</StackPanel>
+							<StackPanel Name="Tips_Block" Orientation="Vertical" Margin="40,10,0,0">	
+								<Label Foreground="#C9C6D3" Content="Tips and Tricks" FontSize="25"/>
+								<Label  Foreground="#C9C6D3" Content="- Write a good description of the issue" Margin="4,0,0,0"/>
+								<Label  Foreground="#C9C6D3" Content="- Has it worked before?" Margin="4,0,0,0"/>	
+								<Label  Foreground="#C9C6D3" Content="- Does it work for your colleagues?" Margin="4,0,0,0"/>	
+								<Label  Foreground="#C9C6D3" Content="- Add screenshots (Use Snip or Greenshot)" Margin="4,0,0,0"/>
+								<Label  Foreground="#C9C6D3" Content="- Don't use CC on the email as it can create" Margin="4,0,0,0"/>
+								<Label  Foreground="#C9C6D3" Content="  multiple tickets if a conversation is started" Margin="4,0,0,0"/>
+								<Label  Foreground="#C9C6D3" Content="- Have you tried restarting the computer?" Margin="4,0,0,0"/>
+							</StackPanel>								
+						</StackPanel>	
+					</StackPanel>	
+				</TabItem>	
+
+				<TabItem Name="Tab_Tools" Header="Tools" >
+					<StackPanel Orientation="Horizontal" Margin="0,0,0,0"  HorizontalAlignment="Center">			
+						<StackPanel Name="Tools_Block1" Orientation="Vertical" Margin="0,30,20,0">
+							<Button x:Name="tools_button1_1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="tools_button1_2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="tools_button1_3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="tools_button1_4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="tools_button1_5" Height="40" Width="200" Content='' Margin="0,10,0,0" />									
+						</StackPanel>	
+						<StackPanel Name="Tools_Block2" Orientation="Vertical" Margin="0,30,0,20"> <!-- Margin="Left,Top,Right,Bottom" -->
+							<Button x:Name="tools_button2_1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="tools_button2_2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="tools_button2_3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="tools_button2_4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="tools_button2_5" Height="40" Width="200" Content='' Margin="0,10,0,0" />									
+						</StackPanel>	
+					</StackPanel>
+				</TabItem>
+
+				<TabItem Name="Tab_Troubleshooting" Header="Troubleshooting" >
+					<StackPanel Orientation="Horizontal" Margin="0,0,0,0"  HorizontalAlignment="Center">			
+						<StackPanel Name="Troubleshooting_Block1" Orientation="Vertical" Margin="0,30,20,0">
+							<Button x:Name="Troubleshooting_Btn_Block1_Row1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="Troubleshooting_Btn_Block1_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block1_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />																	
+							<Button x:Name="Troubleshooting_Btn_Block1_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />									
+							<Button x:Name="Troubleshooting_Btn_Block1_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block1_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+						</StackPanel>	
+						<StackPanel Name="Troubleshooting_Block2" Orientation="Vertical" Margin="0,30,20,0">
+							<Button x:Name="Troubleshooting_Btn_Block2_Row1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="Troubleshooting_Btn_Block2_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block2_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block2_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block2_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block2_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+						</StackPanel>	
+						<StackPanel Name="Troubleshooting_Block3" Orientation="Vertical" Margin="0,30,0,0">
+							<Button x:Name="Troubleshooting_Btn_Block3_Row1" Height="40" Width="200" Content=''  />
+							<Button x:Name="Troubleshooting_Btn_Block3_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Troubleshooting_Btn_Block3_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block3_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block3_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block3_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+						</StackPanel>
+					</StackPanel>		
+				</TabItem>
+
+				<TabItem Name="Tab_VPN" Header="VPN" >
+					<StackPanel Orientation="Vertical" Name="aaaa">
+					<StackPanel Orientation="Horizontal" Margin="0,10,0,0" VerticalAlignment="Top">	
+						<StackPanel Name="VPN_LeftBlock" Orientation="Vertical" HorizontalAlignment="Left" Margin="0,30,00,0" Width="600">	
+							<StackPanel Orientation="Vertical" Name="VPN_LeftBlock_NoVPNDetected">
+								<Label FontWeight="Bold" Foreground="#C9C6D3" FontSize="14" Name="VPN_NoVPNDetected_Title" Content="" />
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_NoVPNDetected_Error" Content="" />	
+							</StackPanel>	
+							<StackPanel Orientation="Vertical" Name="VPN_LeftBlock_VPNDetected">
+								<Label FontWeight="Bold" Foreground="#C9C6D3" FontSize="14" Name="VPN_Settings_Title_Settings" Content="Settings" />
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_Settings_CurrentServer" Content="" />	
+								<Button x:Name="VPN_Settings_Btn_ChangeSite" Height="40" Width="250" Content='Change Site' Margin="0,10,0,0" HorizontalAlignment="Left" />
+								<Label FontWeight="Bold" Foreground="#C9C6D3" FontSize="14" Name="VPN_Settings_Title_CurrentStatus" Content="Current Status" Margin="0,30,0,0" />	
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_Settings_CurrentStatus" Content="" />
+								<Button x:Name="VPN_Btn_Connect" Height="40" Width="250" Content='Connect to VPN' Margin="0,10,0,0" HorizontalAlignment="Left" />
+								<TextBlock x:Name="VPN_Connect_Hint" FontSize="12" Foreground="#C9C6D3" Margin="0,10,0,0" Text="If using the Authenticator App, check for approvals" />
+								<Button x:Name="VPN_Btn_Disconnect" Height="40" Width="250" Content='Disconnect from VPN' Margin="0,10,0,0" HorizontalAlignment="Left" />
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_Connected_IP" Content="" Margin="0,10,0,0" />	
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_Connected_Site" Content="" />	
+							</StackPanel>
+
+						</StackPanel>
+						<StackPanel Name="VPN_RightBlock" Orientation="Vertical" HorizontalAlignment="Right" Margin="00,30,0,0">	
+							<StackPanel Orientation="Vertical">
+								<Label FontWeight="Bold" Foreground="#C9C6D3" FontSize="14" Name="VPN_Troubleshooting_Title" Content="Troubleshooting" />	
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_Troubleshooting_IPAddress" Content="" />
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_Troubleshooting_City" Content="" />
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_Troubleshooting_Region" Content="" />
+								<Label FontSize="12" Foreground="#C9C6D3" Name="VPN_Troubleshooting_Country" Content="" />
+							</StackPanel>	
+						</StackPanel>
+							
+					</StackPanel>
+						<StackPanel Orientation="Horizontal" Name="VPN_FooterBlock">
+								<Button x:Name="VPN_Btn_ChangeMFA" Height="40" Width="350" Content='Change Authentication Method (MFA)' Margin="0,50,0,0" HorizontalAlignment="Left" />
+								<Button x:Name="VPN_Btn_Repair" Height="40" Width="250" Content='Repair VPN' Margin="40,50,0,0" HorizontalAlignment="Left" />
+						</StackPanel>					
+					</StackPanel>					
+				</TabItem>
+			
+			</TabControl>							
+		</StackPanel>		
+    </Grid>
+</Controls:MetroWindow>        
+   
+    
+    
+    
