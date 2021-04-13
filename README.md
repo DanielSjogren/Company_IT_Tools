@@ -62,6 +62,8 @@ Add:
 	$DialogMessage.Content = "Add the message here" 
 	[MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
 
+![alt text](https://github.com/DanielSjogren/Company_IT_Tools/blob/main/previews/custom_dialog.png)
+
 ## How to configure the VPN?
 
 Define the name of the VPN connection (Same name as in Windows):  
