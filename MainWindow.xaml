@@ -322,19 +322,32 @@
 				<TabItem Name="Tab_Tools" Header="Tools" >
 					<StackPanel Orientation="Horizontal" Margin="0,0,0,0"  HorizontalAlignment="Center">			
 						<StackPanel Name="Tools_Block1" Orientation="Vertical" Margin="0,30,20,0">
-							<Button x:Name="tools_button1_1" Height="40" Width="200" Content=''  />	
-							<Button x:Name="tools_button1_2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
-							<Button x:Name="tools_button1_3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
-							<Button x:Name="tools_button1_4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
-							<Button x:Name="tools_button1_5" Height="40" Width="200" Content='' Margin="0,10,0,0" />									
+							<Button x:Name="Tools_Btn_Block1_Row1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="Tools_Btn_Block1_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block1_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block1_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block1_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Tools_Btn_Block1_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Tools_Btn_Block1_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
 						</StackPanel>	
 						<StackPanel Name="Tools_Block2" Orientation="Vertical" Margin="0,30,0,20"> <!-- Margin="Left,Top,Right,Bottom" -->
-							<Button x:Name="tools_button2_1" Height="40" Width="200" Content=''  />	
-							<Button x:Name="tools_button2_2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
-							<Button x:Name="tools_button2_3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
-							<Button x:Name="tools_button2_4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
-							<Button x:Name="tools_button2_5" Height="40" Width="200" Content='' Margin="0,10,0,0" />									
+							<Button x:Name="Tools_Btn_Block2_Row1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="Tools_Btn_Block2_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block2_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block2_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block2_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Tools_Btn_Block2_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block2_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />
 						</StackPanel>	
+						<StackPanel Name="Tools_Block3" Orientation="Vertical" Margin="0,30,0,20"> <!-- Margin="Left,Top,Right,Bottom" -->
+							<Button x:Name="Tools_Btn_Block3_Row1" Height="40" Width="200" Content=''  />	
+							<Button x:Name="Tools_Btn_Block3_Row2" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block3_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block3_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block3_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Tools_Btn_Block3_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Tools_Btn_Block3_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+						</StackPanel>							
 					</StackPanel>
 				</TabItem>
 
@@ -346,7 +359,8 @@
 							<Button x:Name="Troubleshooting_Btn_Block1_Row3" Height="40" Width="200" Content='' Margin="0,10,0,0" />																	
 							<Button x:Name="Troubleshooting_Btn_Block1_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />									
 							<Button x:Name="Troubleshooting_Btn_Block1_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />
-							<Button x:Name="Troubleshooting_Btn_Block1_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />	
+							<Button x:Name="Troubleshooting_Btn_Block1_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block1_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />							
 						</StackPanel>	
 						<StackPanel Name="Troubleshooting_Block2" Orientation="Vertical" Margin="0,30,20,0">
 							<Button x:Name="Troubleshooting_Btn_Block2_Row1" Height="40" Width="200" Content=''  />	
@@ -355,6 +369,7 @@
 							<Button x:Name="Troubleshooting_Btn_Block2_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
 							<Button x:Name="Troubleshooting_Btn_Block2_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />
 							<Button x:Name="Troubleshooting_Btn_Block2_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block2_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />
 						</StackPanel>	
 						<StackPanel Name="Troubleshooting_Block3" Orientation="Vertical" Margin="0,30,0,0">
 							<Button x:Name="Troubleshooting_Btn_Block3_Row1" Height="40" Width="200" Content=''  />
@@ -363,6 +378,7 @@
 							<Button x:Name="Troubleshooting_Btn_Block3_Row4" Height="40" Width="200" Content='' Margin="0,10,0,0" />
 							<Button x:Name="Troubleshooting_Btn_Block3_Row5" Height="40" Width="200" Content='' Margin="0,10,0,0" />
 							<Button x:Name="Troubleshooting_Btn_Block3_Row6" Height="40" Width="200" Content='' Margin="0,10,0,0" />
+							<Button x:Name="Troubleshooting_Btn_Block3_Row7" Height="40" Width="200" Content='' Margin="0,10,0,0" />
 						</StackPanel>
 					</StackPanel>		
 				</TabItem>

@@ -23,6 +23,11 @@ Changes from the original version:
 
 # General
 
+## Command in shortcut?
+```
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -windowstyle hidden -ExecutionPolicy Allsigned -File C:\PATH\IT_Tools.ps1
+```
+
 ## How to change the title and Window size?
 Change the lines:  
 ```powershell
@@ -50,6 +55,14 @@ Change the lines:
     $Links_Block1.Visibility = "Visible"  
     $Links_Block2.Visibility = "Collapsed"  
     $Links_Block3.Visibility = "Collapsed"  
+
+    $Tools_Block1.Visibility = "Visible"
+    $Tools_Block2.Visibility = "Visible"
+    $Tools_Block3.Visibility = "Collapsed"
+	
+    $Troubleshooting_Block1.Visibility = "Visible"
+    $Troubleshooting_Block2.Visibility = "Visible"
+    $Troubleshooting_Block3.Visibility = "Visible"	
 ```
 
 ## How to configure a button?
