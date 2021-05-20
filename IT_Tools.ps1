@@ -1,6 +1,6 @@
 #================================================================================================================
 #
-# Author 		 : Daniel Sjögren 
+# Author 		 : Daniel Sjogren 
 # A lot of inspiration from "About my PC" https://github.com/damienvanrobaeys/About_my_device
 #
 #================================================================================================================
@@ -502,7 +502,7 @@ Function Get_Details_Infos {
 	$Graphic_Card_details.Content = $Graphic_Cards_with_DriverVersion
 
 	# Get Graphic Wifi info
-	$Wifi_Card_Info = (Get-NetAdapter -name wi-fi)
+	$Wifi_Card_Info = (Get-NetAdapter -name wi-fi*)
 	If(($Wifi_Card_Info.count) -gt 1)
 		{
 			ForEach ($Card in $Wifi_Card_Info) ### Enum Disk 
@@ -1187,7 +1187,7 @@ Function RepairVPN {
                 # Set "Register this connections address in DNS
                 $RASPhoneBook = "$([Environment]::GetFolderPath('ApplicationData'))\Microsoft\Network\Connections\Pbk\rasphone.pbk"
                 If (Test-Path($RASPhoneBook)) {
-                    (Get-Content $RASPhoneBook) -Replace ‘IpDnsFlags=0’, ‘IpDnsFlags=3’ | Set-Content $RASPhoneBook
+                    (Get-Content $RASPhoneBook) -Replace 'IpDnsFlags=0', 'IpDnsFlags=3' | Set-Content $RASPhoneBook
                 } else {
                     #Write-Log -Message "--- No Access to rasphone.pbk"
                 }
@@ -1195,7 +1195,7 @@ Function RepairVPN {
                 # Set custom metric from Automatic to 1
                 $RASPhoneBook = "$([Environment]::GetFolderPath('ApplicationData'))\Microsoft\Network\Connections\Pbk\rasphone.pbk"
                 If (Test-Path($RASPhoneBook)) {
-                    (Get-Content $RASPhoneBook) -Replace ‘IpInterfaceMetric=0’, ‘IpInterfaceMetric=1’ | Set-Content $RASPhoneBook
+                    (Get-Content $RASPhoneBook) -Replace 'IpInterfaceMetric=0', 'IpInterfaceMetric=1' | Set-Content $RASPhoneBook
                 } else {
                     #Write-Log -Message "--- No Access to rasphone.pbk"
                 }
@@ -1278,7 +1278,7 @@ Function CreateRegistryKey {
 .DESCRIPTION 
    
 .NOTES 
-   Created by: Daniel Sjögren 
+   Created by: Daniel Sjogren 
    Modified: 2016-12-20    
  
    Changelog: 
@@ -1345,7 +1345,7 @@ Function TestRegistryValue {
     .DESCRIPTION 
    
     .NOTES 
-       Created by: Daniel Sjögren 
+       Created by: Daniel Sjogren 
        Modified: 2016-12-20    
  
        Changelog: 
@@ -1383,7 +1383,7 @@ Function GETRandomPassword() {
             [int]$length=10,
             [string[]]$sourcedata
         )
-        For ($loop=1; $loop –le $length; $loop++) {
+        For ($loop=1; $loop -le $length; $loop++) {
             $TempPassword+=($sourcedata | GET-RANDOM)
         }
         return $TempPassword
@@ -1467,7 +1467,7 @@ Function Tools_GeneratePassword {
         }
 
         DO {
-            $PW = GetRandomPassword –length $Length –sourcedata $Characters
+            $PW = GetRandomPassword -length $Length -sourcedata $Characters
             #$PW
         } Until (Test-PasswordComplexity $PW)
 
@@ -2037,7 +2037,7 @@ If ($True) {
             $CPAppletMgr = New-Object -ComObject CPApplet.CPAppletMgr
             $ClientActions = $CPAppletMgr.GetClientActions()
             ForEach ($ClientAction in $ClientActions) {
-                #Write-Host “Performing action $($ClientAction.Name)”
+                #Write-Host "Performing action $($ClientAction.Name)"
                 If ($ClientAction.Name -eq "Application Global Evaluation Task") {
                     $ClientAction.PerformAction | Out-Null
                 }
@@ -2072,7 +2072,7 @@ If ($True) {
             $CPAppletMgr = New-Object -ComObject CPApplet.CPAppletMgr
             $ClientActions = $CPAppletMgr.GetClientActions()
             ForEach ($ClientAction in $ClientActions) {
-                #Write-Host “Performing action $($ClientAction.Name)”
+                #Write-Host "Performing action $($ClientAction.Name)"
                 If ($ClientAction.Name -eq "Request & Evaluate Machine Policy") {
                     $ClientAction.PerformAction | Out-Null
                 }
@@ -2101,7 +2101,7 @@ If ($True) {
             $CPAppletMgr = New-Object -ComObject CPApplet.CPAppletMgr
             $ClientActions = $CPAppletMgr.GetClientActions()
             ForEach ($ClientAction in $ClientActions) {
-                #Write-Host “Performing action $($ClientAction.Name)”
+                #Write-Host "Performing action $($ClientAction.Name)"
                 If ($ClientAction.Name -eq "Hardware Inventory Collection Cycle") {
                     $ClientAction.PerformAction | Out-Null
                 }
@@ -2296,7 +2296,7 @@ Close_modal_progress
 $Tab_Control.Add_SelectionChanged({	
     # Refresh data if it was one hour or more since data was collected
     $CurrentTime = $(Get-Date)
-    $TimeSinceLastRefresh = $(New-Timespan –Start $LastRefresh –End $CurrentTime)
+    $TimeSinceLastRefresh = $(New-Timespan -Start $LastRefresh -End $CurrentTime)
     If ($TimeSinceLastRefresh.TotalMinutes -ge 60) {
         CreateNewChildRunSpace
         Launch_modal_progress
@@ -2317,7 +2317,7 @@ $Tab_Control.Add_SelectionChanged({
     }
 })
 
-$Main_Color = "Cyan" # Available colors: “Red”, “Green”, “Blue”, “Purple”, “Orange”, “Lime”, “Emerald”, “Teal”, “Cyan”, “Cobalt”, “Indigo”, “Violet”, “Pink”, “Magenta”, “Crimson”, “Amber”, “Yellow”, “Brown”, “Olive”, “Steel”, “Mauve”, “Taupe”, “Sienna”
+$Main_Color = "Cyan" # Available colors: "Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna"
 $Theme = [MahApps.Metro.ThemeManager]::DetectAppStyle($Form)	
 [MahApps.Metro.ThemeManager]::ChangeAppStyle($Form, [MahApps.Metro.ThemeManager]::GetAccent("$Main_Color"), $Theme.Item1);	
 
