@@ -1206,7 +1206,7 @@ Function RepairVPN {
                 #Write-Log -Message "--- VPN installed"
         } 
 
-    $DialogMessage.Content = "Permobil VPN has been repaired" 
+    $DialogMessage.Content = "$Name has been repaired" 
     [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
 
     $DialogbtnClose.add_Click({
@@ -1938,34 +1938,56 @@ If ($True) {
     $Troubleshooting_Btn_Block1_Row1.Content = "Clear Teams cache"
     $Troubleshooting_Btn_Block1_Row1.Visibility = "Visible"
     $Troubleshooting_Btn_Block1_Row1.Add_Click({
-            $TeamsRunning = Get-ProcessWithOwner teams
-            if($TeamsRunning) {
-                foreach($Process in $TeamsRunning){ 
-                try{ 
+        If (Get-ProcessWithOwner teams) {
+            ForEach ($Process in $(Get-ProcessWithOwner teams)) { 
+                Try { 
                     Stop-Process $Process.handle | Out-Null 
                     #"Stopped process with handle $($Process.handle)" 
-                }catch{ 
+                } Catch { 
                     #"Failed to kill process with handle $($Process.handle)"
                 } 
-        } 
-                Stop-Process  "$([Environment]::GetFolderPath("LocalApplicationData"))\Microsoft\Teams\Update.exe" 
-            }
-            Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\teams\application cache\cache\" -Recurse -Force -ErrorAction SilentlyContinue 
-            Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\teams\blob_storage\" -Recurse -Force -ErrorAction SilentlyContinue 
-            Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\teams\Cache\" -Recurse -Force -ErrorAction SilentlyContinue 
-            Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\teams\databases\" -Recurse -Force -ErrorAction SilentlyContinue 
-            Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\teams\GPUcache\" -Recurse -Force -ErrorAction SilentlyContinue 
-            Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\teams\Local Storage\" -Recurse -Force -ErrorAction SilentlyContinue 
-            Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\teams\tmp\" -Recurse -Force -ErrorAction SilentlyContinue 
-            Start-Process  "$([Environment]::GetFolderPath("LocalApplicationData"))\Microsoft\Teams\Update.exe" -ArgumentList "--processStart ""Teams.exe"""
+             } 
+        }
+        If (Get-ProcessWithOwner update) {
+            ForEach ($Process in $(Get-ProcessWithOwner update)) { 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch { 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+             } 
+        }
+        Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\Teams\application cache\cache\" -Recurse -Force -ErrorAction SilentlyContinue 
+        Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\Teams\blob_storage\" -Recurse -Force -ErrorAction SilentlyContinue 
+        Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\Teams\Cache\" -Recurse -Force -ErrorAction SilentlyContinue 
+        Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\Teams\databases\" -Recurse -Force -ErrorAction SilentlyContinue 
+        Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\Teams\GPUcache\" -Recurse -Force -ErrorAction SilentlyContinue 
+        Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\Teams\Local Storage\" -Recurse -Force -ErrorAction SilentlyContinue 
+        Remove-Item -Path "$([Environment]::GetFolderPath("ApplicationData"))\Microsoft\Teams\tmp\" -Recurse -Force -ErrorAction SilentlyContinue 
+        
         $DialogMessage.Content = "Cleared Teams Cache" 
+
+        If (Test-Path("$([Environment]::GetFolderPath("LocalApplicationData"))\Microsoft\Teams\Update.exe")) {
+            Start-Process  "$([Environment]::GetFolderPath("LocalApplicationData"))\Microsoft\Teams\Update.exe" -ArgumentList "--processStart ""Teams.exe"""
+        } ElseIf (Test-Path("$([Environment]::GetFolderPath("ProgramFilesX86"))\Microsoft\Teams\Update.exe")) {
+            Start-Process  "$([Environment]::GetFolderPath("ProgramFilesX86"))\Microsoft\Teams\Update.exe" -ArgumentList "--processStart ""Teams.exe"""
+        } Else {
+            $DialogMessage.Content = "Cleared Teams Cache, but could not start Teams again." 
+        }
+        
         [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
     })
 
     $Troubleshooting_Btn_Block1_Row2.Content = "Autoruns"
     $Troubleshooting_Btn_Block1_Row2.Visibility = "Collapse"
     $Troubleshooting_Btn_Block1_Row2.Add_Click({
-        $process = Start-Process "C:\PATH_TO\Autoruns.exe" -PassThru 
+        If (Test-Path("C:\PATH_TO\Autoruns.exe")) {
+            $process = Start-Process "C:\PATH_TO\Autoruns.exe" -PassThru 
+        } Else {
+            $DialogMessage.Content = "Could not find Autoruns" 
+            [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
+        }
     })
 
     $Troubleshooting_Btn_Block1_Row3.Content = "Policy Update (gpupdate)"
@@ -2001,9 +2023,36 @@ If ($True) {
     $Troubleshooting_Btn_Block2_Row1.Content = "Clear Java Cache"
     $Troubleshooting_Btn_Block2_Row1.Visibility = "Visible"
     $Troubleshooting_Btn_Block2_Row1.Add_Click({
-        Stop-Process -Name java.exe -Force -ErrorAction SilentlyContinue
-        Stop-Process -Name javaws.exe -Force -ErrorAction SilentlyContinue
-        Stop-Process -Name javaw.exe -Force -ErrorAction SilentlyContinue
+        If (Get-ProcessWithOwner java) {
+            ForEach ($Process in $(Get-ProcessWithOwner java)) { 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch { 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+             } 
+        }
+        If (Get-ProcessWithOwner javaws) {
+            ForEach ($Process in $(Get-ProcessWithOwner javaws)) { 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch { 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+             } 
+        }
+        If (Get-ProcessWithOwner javaw) {
+            ForEach ($Process in $(Get-ProcessWithOwner javaw)) { 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch { 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+             } 
+        }
         Remove-Item -Path "$([Environment]::GetFolderPath("LocalApplicationData"))\..\LocalLow\Sun\Java\Deployment\cache\6.0\" -Recurse -Force -ErrorAction SilentlyContinue 
         $DialogMessage.Content = "Cleared Java temp files" 
         [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
@@ -2020,7 +2069,12 @@ If ($True) {
     $Troubleshooting_Btn_Block2_Row3.Content = "Process Hacker"
     $Troubleshooting_Btn_Block2_Row3.Visibility = "Collapse"
     $Troubleshooting_Btn_Block2_Row3.Add_Click({
-        $process = Start-Process "C:\PATH_TO\ProcessHacker\ProcessHacker.exe" -PassThru 
+        If (Test-Path("C:\PATH_TO\ProcessHacker\ProcessHacker.exe")) {
+            $process = Start-Process "C:\PATH_TO\ProcessHacker\ProcessHacker.exe" -PassThru 
+        } Else {
+            $DialogMessage.Content = "Could not find ProcessHacker" 
+            [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
+        }
     })
 
     $Troubleshooting_Btn_Block2_Row4.Content = "Repair Start Menu Tiles"
@@ -2042,13 +2096,79 @@ If ($True) {
                     $ClientAction.PerformAction | Out-Null
                 }
             }
-        $DialogMessage.Content = "Ran SCCM App Evaluation" 
+        $DialogMessage.Content = "Started SCCM App Evaluation" 
         [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
     })
 
-    $Troubleshooting_Btn_Block2_Row6.Content = "Title"
+    $Troubleshooting_Btn_Block2_Row6.Content = "Restart Citrix Workspace"
     $Troubleshooting_Btn_Block2_Row6.Visibility = "Collapse"
-    $Troubleshooting_Btn_Block2_Row6.Add_Click({
+    $Troubleshooting_Btn_Block2_Row6.Add_Click({ 
+        If (Get-ProcessWithOwner AuthManSvr) {
+            ForEach ($Process in $(Get-ProcessWithOwner AuthManSvr)){ 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch{ 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+            }
+        } 
+        If (Get-ProcessWithOwner concentr) {
+            ForEach ($Process in $(Get-ProcessWithOwner concentr)){ 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch{ 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+            }
+        } 
+        If (Get-ProcessWithOwner Receiver) {
+            ForEach ($Process in $(Get-ProcessWithOwner Receiver)){ 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch{ 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+            }
+        } 
+        If (Get-ProcessWithOwner redirector) {
+            ForEach ($Process in $(Get-ProcessWithOwner redirector)){ 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch{ 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+            }
+        } 
+        If (Get-ProcessWithOwner selfservice) {
+            ForEach ($Process in $(Get-ProcessWithOwner selfservice)){ 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch{ 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+            }
+        } 
+        If (Get-ProcessWithOwner wfcrun32) {
+            ForEach ($Process in $(Get-ProcessWithOwner wfcrun32)){ 
+                Try { 
+                    Stop-Process $Process.handle | Out-Null 
+                    #"Stopped process with handle $($Process.handle)" 
+                } Catch{ 
+                    #"Failed to kill process with handle $($Process.handle)"
+                } 
+            }
+        } 
+        If (Test-Path("$([Environment]::GetFolderPath("ProgramFilesX86"))\Citrix\ICA Client\SelfServicePlugin\SelfService.exe")) {
+            Start-Process "$([Environment]::GetFolderPath("ProgramFilesX86"))\Citrix\ICA Client\SelfServicePlugin\SelfService.exe" #-ArgumentList "-showAppPicker"
+        } Else {
+            $DialogMessage.Content = "Could not find Citrix Workspace" 
+            [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
+        }
         
     })
 
@@ -2084,8 +2204,13 @@ If ($True) {
     $Troubleshooting_Btn_Block3_Row3.Content = "Refresh Citrix applications"
     $Troubleshooting_Btn_Block3_Row3.Visibility = "Visible"
     $Troubleshooting_Btn_Block3_Row3.Add_Click({
-        $process = Start-Process "C:\Program Files (x86)\Citrix\ICA Client\SelfServicePlugin\SelfService.exe" -ArgumentList ("-poll") -PassThru
-        $DialogMessage.Content = "Started refresh of Citrix apps" 
+        If (Test-Path("$([Environment]::GetFolderPath("ProgramFilesX86"))\Citrix\ICA Client\SelfServicePlugin\SelfService.exe")) {
+            $process = Start-Process "$([Environment]::GetFolderPath("ProgramFilesX86"))\Citrix\ICA Client\SelfServicePlugin\SelfService.exe" -ArgumentList ("-poll") -PassThru
+            $DialogMessage.Content = "Started refresh of Citrix apps" 
+        } Else {
+            $DialogMessage.Content = "Could not find Citrix Workspace" 
+            [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
+        }  
         [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
     })
 
@@ -2106,7 +2231,7 @@ If ($True) {
                     $ClientAction.PerformAction | Out-Null
                 }
             }               
-        $DialogMessage.Content = "Ran SCCM Hardware Inventory" 
+        $DialogMessage.Content = "Started SCCM Hardware Inventory" 
         [MahApps.Metro.Controls.Dialogs.DialogManager]::ShowMetroDialogAsync($form, $CustomDialog, $settings)
     })
 
